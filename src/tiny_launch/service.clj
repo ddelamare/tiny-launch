@@ -2,7 +2,8 @@
   (:require [io.pedestal.http :as http]
             [io.pedestal.http.route :as route]
             [io.pedestal.http.body-params :as body-params]
-            [ring.util.response :as ring-resp]))
+            [ring.util.response :as ring-resp]
+            [tiny-launch.home :as home-views]))
 
 (defn about-page
   [request]
@@ -12,7 +13,7 @@
 
 (defn home-page
   [request]
-  (ring-resp/response "Hello World!"))
+  (ring-resp/response (home-views/home-template request)))
 
 ;; Defines "/" and "/about" routes with their associated :get handlers.
 ;; The interceptors defined after the verb map (e.g., {:get home-page}
