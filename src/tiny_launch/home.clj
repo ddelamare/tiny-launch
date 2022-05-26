@@ -1,6 +1,6 @@
 (ns tiny-launch.home
-    (:require [hiccup.core :as h])
-)
+    (:require [hiccup.core :as h]
+              [tiny-launch.layout :as l]))
 
 (defn home-template [request] 
-    (h/html [:div "Hello deary2"]))
+    (l/layout request (h/html [:div "Hello deary"])))

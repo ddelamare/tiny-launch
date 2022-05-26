@@ -23,6 +23,6 @@
   ;:java-agents [[org.mortbay.jetty.alpn/jetty-alpn-agent "2.0.5"]]
   :profiles {:dev {:aliases {"run-dev" ["trampoline" "run" "-m" "tiny-launch.server/run-dev"]}
                    :dependencies [[io.pedestal/pedestal.service-tools "0.5.10"]]
-                   :source-paths ["src", "dev/*"]}
+                   :source-paths ["src", "dev"]}
              :uberjar {:aot [tiny-launch.server]}}
   :main ^{:skip-aot true} tiny-launch.server)
