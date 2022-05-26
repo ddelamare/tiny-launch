@@ -5,7 +5,8 @@
 (defn site-list
   "Lists a set of sites. Takes parameters for type and page size and paging"
   [list-type pageSize pageable?]
-  [:div.site-list (str list-type pageSize pageable?)])
+  [:div.site-list (str list-type pageSize pageable?)
+   [:ol (repeat pageSize [:li.site-list-row "Row"])]])
 
 (defn home-template [request]
   (l/layout request
