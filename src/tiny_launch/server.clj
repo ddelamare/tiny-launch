@@ -8,6 +8,7 @@
 ;; From the REPL you can call server/start and server/stop on this service
 (defonce runnable-service (server/create-server service/service))
 
+#_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
 (defn run-dev
   "The entry-point for 'lein run-dev'"
   [& args]
