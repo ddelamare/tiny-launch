@@ -1,5 +1,5 @@
 (ns tiny-launch.home
-  (:require [hiccup.core :as h]
+  (:require [hiccup.page :as p]
             [tiny-launch.layout :as l]))
 
 (defn site-list
@@ -10,8 +10,10 @@
 
 (defn home-template [request]
   (l/layout request
-    (h/html
-      [:div.content
+    (p/html5
+   [:head
+    (p/include-css "css/home.css")]
+     [:div.content
        [:div.welcome "Welcome"]
        [:div.featured (site-list :featured 10 false)]
        [:div.newest (site-list :newest 10 true)]

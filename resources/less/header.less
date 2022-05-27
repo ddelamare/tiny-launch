@@ -1,0 +1,47 @@
+// out: false
+
+.header {
+    background-color: var(--color-main);
+    display: flex;
+    line-height: 2em;
+    padding-left: var(--container-padding);
+    padding-right: 2%;
+}
+
+.nav-buttons {
+    margin-left: auto;
+    color: var(--color-background);
+    font-weight: bold;
+
+    ul {
+        display: flex;
+        white-space: nowrap;
+        align-items: center;
+        flex-direction: row;
+        line-height: 2em;
+
+        li {
+            display: inline-block; 
+            list-style: none;
+            padding-left: 1%;
+            margin-right: 1%;
+            border: 1px solid var(--color-fill);
+            border-radius: 5px;
+            line-height: normal;
+            margin-top: .33em;
+        }
+    }
+}
+
+.logo {
+    font-size: 1.5em;
+
+    /*Give the logo the right color and stroke*/
+    font-family: Impact, 'Arial Narrow Bold', sans-serif;
+    font-style: normal;
+    color: black;
+    -webkit-text-fill-color: var(--color-background);
+    /* Will override color (regardless of order) */
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: var(--color-fill);
+}

@@ -13,8 +13,6 @@
   "Defines the global layouout"
   [request inner]
   (p/html5
-   [:head
-    (p/include-css "css/site.css")]
    [:title "TinyLaunch"]
    [:body [:div (header-bar request)] inner]))
 
