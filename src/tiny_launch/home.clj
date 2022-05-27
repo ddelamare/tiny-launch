@@ -1,12 +1,13 @@
 (ns tiny-launch.home
   (:require [hiccup.page :as p]
-            [tiny-launch.layout :as l]))
+            [tiny-launch.layout :as l]
+            [tiny-launch.services.site :as ss]))
 
 (defn site-list
   "Lists a set of sites. Takes parameters for type and page size and paging"
   [list-type pageSize pageable?]
   [:div.site-list
-   [:div.list-box (repeat pageSize [:div.site-list-row "Row"])]])
+   [:div.list-box.striped (map (fn [kv] [:div.site-list-row (:label kv)]) (ss/get-site list-type))]])
 
 (defn home-template [request]
   (l/layout request
