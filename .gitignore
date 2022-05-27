@@ -37,3 +37,4 @@ out/
 build/
 
 .calva/output-window/output.calva-repl
+*.css

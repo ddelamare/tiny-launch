@@ -5,7 +5,7 @@
   background-color: antiquewhite;
 }
 .striped :nth-child(even) {
-  background-color: green;
+  background-color: var(--color-light-fill);
 }
 .welcome {
   flex: 0 0 100%;

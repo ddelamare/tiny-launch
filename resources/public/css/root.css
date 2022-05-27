@@ -1,15 +1,24 @@
+:root {
+  /*These CSS vars can later be used for dark theme or responsive design.
+    https://codyhouse.co/blog/post/css-custom-properties-vs-sass-variables
+    The LESS variables can be used as fallback colors or to use LESS functions to
+    calculate new CSS vars (eg color lighen or darkening)
+    */
+  --color-accent: #e99a27;
+  --color-background: #e6f4f1;
+  --color-fill: #7db1d6;
+  --color-light-fill: #deebf5;
+  --color-main: #457B9D;
+  --color-dark: #723700;
+  --color-extra-dark: #000000;
+  --color-font: #3f1f01;
+  --container-padding: 1%;
+}
 * {
   box-sizing: border-box;
 }
 body {
   font-family: 'Courier New', Courier, monospace;
-  --color-accent: #e99a27;
-  --color-background: #e6f4f1;
-  --color-fill: #7db1d6;
-  --color-main: #457B9D;
-  --color-dark: #723700;
-  --color-font: #3f1f01;
-  --container-padding: 1%;
   margin: 0;
   padding: 0;
   background-color: var(--color-background);
