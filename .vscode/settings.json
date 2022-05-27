@@ -1,0 +1,6 @@
+{
+    "git.enableSmartCommit": true,
+    "less.compile": {
+        "out": "../public/css/"
+    }
+} 
