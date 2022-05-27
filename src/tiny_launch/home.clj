@@ -17,5 +17,5 @@
        [:div.welcome "Welcome"]
        [:div.featured (site-list :featured 10 false)]
        [:div.newest (site-list :newest 10 true)]
-       [:div.spiel]])))
+       [:div.spiel "This is why this site exists"]])))
 

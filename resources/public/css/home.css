@@ -22,6 +22,8 @@ ul {
   padding-left: var(--container-padding);
   display: inline-flex;
   flex-flow: row wrap;
+  flex-basis: 50%;
+  flex-grow: 1;
   width: 100%;
 }
 .header {
@@ -64,16 +66,16 @@ ul {
   -webkit-text-stroke-width: 1px;
   -webkit-text-stroke-color: var(--color-fill);
 }
-.flex-1 {
-  flex: 1;
+.flex-1-2 {
+  flex: 0 0 50%;
 }
 .welcome {
   flex: 0 0 100%;
   height: 5%;
 }
 .featured {
-  flex: 1;
+  flex: 0 0 50%;
 }
 .newest {
-  flex: 1;
+  flex: 0 0 50%;
 }
