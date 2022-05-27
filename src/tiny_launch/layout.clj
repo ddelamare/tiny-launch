@@ -14,5 +14,6 @@
   [request inner]
   (p/html5
    [:title "TinyLaunch"]
+   [:head (p/include-css "css/header.css") (p/include-css "css/root.css")]
    [:body [:div (header-bar request)] inner]))
 

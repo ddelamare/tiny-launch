@@ -6,7 +6,7 @@
   "Lists a set of sites. Takes parameters for type and page size and paging"
   [list-type pageSize pageable?]
   [:div.site-list
-   [:div (repeat pageSize [:div.site-list-row "Row"])]])
+   [:div.list-box (repeat pageSize [:div.site-list-row "Row"])]])
 
 (defn home-template [request]
   (l/layout request
