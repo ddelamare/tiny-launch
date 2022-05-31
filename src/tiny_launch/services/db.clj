@@ -1,6 +1,7 @@
 (ns tiny-launch.services.db
   (:require [monger.core :as mg]
-            [monger.collection :as mc])
+            [monger.collection :as mc]
+            [monger.query :as mq])
   (:import [com.mongodb MongoOptions ServerAddress]
            [org.bson.types ObjectId]))
 
@@ -9,19 +10,28 @@
 (def main-db (atom (mg/get-db @conn "tiny-launch")))
 
 (defn get-sites
-  [filter]
-  (mc/find-maps @main-db "sites" filter))
+  [filter sort limit]
+  (mq/with-collection @main-db "sites"
+    (mq/find filter)
+    (mq/sort sort)
+    (mq/limit limit)))
 
 (defn ->site-model
+  "Selects only the valid database fields for saving"
   [obj]
-  {
-   :_id (:_id obj)
-   :label (:label obj)
-   :created (:created obj)
-  })
+  (select-keys
+   (merge
+    obj
+    (cond
+      (nil? (:_id obj))
+      {:_id (ObjectId.)
+       :created (java.util.Date.)}
+      (not (nil? (:_id obj))) (let [saved (mc/find-map-by-id @main-db "sites" (:_id obj))]
+                                {:created (:created saved)})))
+   ;; This will limit the map to fields that are allowable for the db
+  [:_id :label :created :rating]))
 
 (defn upsert-site
   [site]
-  (let [id (or (:_id site) (ObjectId.))]
-    (mc/update @main-db "sites" {:_id id} 
-               (assoc (assoc (->site-model site) :_id id) :created (or (:created site) (java.util.Date.))) {:upsert true})))
+  (let [model (->site-model site)]
+    (mc/update-by-id @main-db "sites" (:_id model) model {:upsert true})))
