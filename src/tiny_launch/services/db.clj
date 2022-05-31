@@ -9,6 +9,14 @@
 
 (def main-db (atom (mg/get-db @conn "tiny-launch")))
 
+(defn get-site
+  [id]
+  (let [siteId
+        (if (instance? ObjectId id)
+          id
+          (ObjectId. id))]
+    (mc/find-map-by-id @main-db "sites" siteId)))
+
 (defn get-sites
   [filter sort limit]
   (mq/with-collection @main-db "sites"
@@ -29,7 +37,7 @@
       (not (nil? (:_id obj))) (let [saved (mc/find-map-by-id @main-db "sites" (:_id obj))]
                                 {:created (:created saved)})))
    ;; This will limit the map to fields that are allowable for the db
-  [:_id :label :created :rating]))
+  [:_id :label :created :rating :tags]))
 
 (defn upsert-site
   [site]

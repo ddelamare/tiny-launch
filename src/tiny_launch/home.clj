@@ -13,7 +13,7 @@
   (l/layout request
     (p/html5
    [:head
-    (p/include-css "css/home.css")]
+    (p/include-css "/css/home.css")]
      [:div.content
        [:div.welcome "Welcome"]
        [:div.featured "Come see the featured" (site-list :featured 10 false)]

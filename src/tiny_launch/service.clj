@@ -3,7 +3,8 @@
             [io.pedestal.http.route :as route]
             [io.pedestal.http.body-params :as body-params]
             [ring.util.response :as ring-resp]
-            [tiny-launch.home :as home-views]))
+            [tiny-launch.home :as home-views]
+            [tiny-launch.sites :as site-views]))
 
 (defn about-page
   [request]
@@ -15,13 +16,18 @@
   [request]
   (ring-resp/response (home-views/home-template request)))
 
+(defn site-profile
+  [request]
+  (ring-resp/response (site-views/profile-template request)))
+
 ;; Defines "/" and "/about" routes with their associated :get handlers.
 ;; The interceptors defined after the verb map (e.g., {:get home-page}
 ;; apply to / and its children (/about).
 (def common-interceptors [(body-params/body-params) http/html-body])
 
 ;; Tabular routes
-(def routes #{["/" :get (conj common-interceptors `home-page)]
+(def routes #{["/" :get (conj common-interceptors `home-page) :route-name :home]
+              ["/site/:site-id" :get (conj common-interceptors `site-profile) :route-name :site-profile]
               ["/about" :get (conj common-interceptors `about-page)]})
 
 ;; Map-based routes
