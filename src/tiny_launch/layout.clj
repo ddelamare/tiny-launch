@@ -1,6 +1,10 @@
 (ns tiny-launch.layout
   (:require [hiccup.page :as p]))
 
+;; Dynamic reference to url-table defined in service. If this were a static reference, there would
+;; be a cyclical dependency. Possibly move to a helper funciton namespace.
+(def route-builder (resolve 'tiny-launch.service/url-for-routes))
+
 (defn- header-bar
     "Renders the top navigation bar"
     [request]

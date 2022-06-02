@@ -2,6 +2,7 @@
   (:require [io.pedestal.http :as http]
             [io.pedestal.http.route :as route]
             [io.pedestal.http.body-params :as body-params]
+            [io.pedestal.http.route.definition.table :as table]
             [ring.util.response :as ring-resp]
             [tiny-launch.home :as home-views]
             [tiny-launch.sites :as site-views]))
@@ -25,21 +26,21 @@
 ;; apply to / and its children (/about).
 (def common-interceptors [(body-params/body-params) http/html-body])
 
+;;(def app-routes
+;; (table/table-routes
+;;   {}
+;;   [["/user"                   :get  home-page :route-name :test]
+;;    ["/user/:user-id"          :get  home-page        :route-name :show-user-profile]
+;;    ["/user/:user-id/timeline" :post home-page    :route-name :timeline]
+;;    ["/user/:user-id/profile"  :put  site-profile :route-name :foo]]))
+
+
 ;; Tabular routes
-(def routes #{["/" :get (conj common-interceptors `home-page) :route-name :home]
-              ["/site/:site-id" :get (conj common-interceptors `site-profile) :route-name :site-profile]
-              ["/about" :get (conj common-interceptors `about-page)]})
+(def routes (table/table-routes [["/" :get (conj common-interceptors home-page) :route-name :home]
+                                 ["/site/:site-id" :get (conj common-interceptors site-profile) :route-name :site-profile]
+                                 ["/about" :get (conj common-interceptors about-page) :route-name :about]]))
 
-;; Map-based routes
-;(def routes `{"/" {:interceptors [(body-params/body-params) http/html-body]
-;                   :get home-page
-;                   "/about" {:get about-page}}})
-
-;; Terse/Vector-based routes
-;(def routes
-;  `[[["/" {:get home-page}
-;      ^:interceptors [(body-params/body-params) http/html-body]
-;      ["/about" {:get about-page}]]]])
+(def url-for-routes (route/url-for-routes routes))
 
 
 ;; Consumed by tiny-launch.server/create-server
