@@ -36,11 +36,11 @@
 
 
 ;; Tabular routes
-(def routes (table/table-routes [["/" :get (conj common-interceptors home-page) :route-name :home]
-                                 ["/site/:site-id" :get (conj common-interceptors site-profile) :route-name :site-profile]
-                                 ["/about" :get (conj common-interceptors about-page) :route-name :about]]))
+(def routes #{{} ["/" :get (conj common-interceptors home-page) :route-name :home]
+                  ["/site/:site-id" :get (conj common-interceptors site-profile) :route-name :site-profile]
+                  ["/about" :get (conj common-interceptors about-page) :route-name :about]})
 
-(def url-for-routes (route/url-for-routes routes))
+  (def url-for-routes (route/url-for-routes (table/table-routes routes))))
 
 
 ;; Consumed by tiny-launch.server/create-server
