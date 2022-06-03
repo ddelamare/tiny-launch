@@ -2,15 +2,11 @@
   (:require [hiccup.page :as p]
             [hiccup.element :as e]))
 
-;; Dynamic reference to url-table defined in service. If this were a static reference, there would
-;; be a cyclical dependency. Possibly move to a helper funciton namespace.
-(def route-builder (resolve 'tiny-launch.service/url-for-routes))
-
 (defn- header-bar
     "Renders the top navigation bar"
     [request]
     [:div.header
-     [:div (e/link-to (route-builder :home) [:div.logo  "TinyLaunch"]) ]
+     [:div (e/link-to (@(:url-for request) :home) [:div.logo  "TinyLaunch"]) ]
      [:span.nav-buttons
       [:ul [:li "Item 1"] [:li "Item 2"] [:li "Item 3"]]]])
   

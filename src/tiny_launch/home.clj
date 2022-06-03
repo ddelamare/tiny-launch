@@ -6,9 +6,9 @@
 
 (defn site-list
   "Lists a set of sites. Takes parameters for type and page size and paging"
-  [list-type pageSize pageable?]
+  [list-type pageSize pageable? request]
   [:div.site-list
-   [:div.list-box.striped (map (fn [kv] (e/link-to (l/route-builder :site-profile :params {:site-id (:_id kv)}) [:div.site-list-row (:label kv)])) (ss/get-site list-type))]])
+   [:div.list-box.striped (map (fn [kv] (e/link-to (@(:url-for request) :site-profile :params {:site-id (:_id kv)}) [:div.site-list-row (:label kv)])) (ss/get-site list-type))]])
 
 (defn home-template [request]
   (l/layout request
@@ -17,7 +17,7 @@
     (p/include-css "/css/home.css")]
      [:div.content
        [:div.welcome "Welcome"]
-       [:div.featured "Come see the featured" (site-list :featured 10 false)]
-       [:div.newest "Come see the newest" (site-list :newest 10 true)]
+       [:div.featured "Come see the featured" (site-list :featured 10 false request)]
+       [:div.newest "Come see the newest" (site-list :newest 10 true request)]
        [:div.spiel "This is why this site exists"]])))
 

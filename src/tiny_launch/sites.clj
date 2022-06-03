@@ -14,10 +14,10 @@
   [request]
   (l/layout request
     (p/html5
-   [:head (prn request)
+   [:head
     (p/include-css "/css/site-profile.css")]
      (when-let [site (db/get-site (:site-id (:path-params request)))]
-       [:div.content
+       [:div.content  
         [:div.hero [:h1 (:label site)]]
         [:div.featured "This is what my site does and why you need it"]
         [:div.newest "See some picutes I took"]
