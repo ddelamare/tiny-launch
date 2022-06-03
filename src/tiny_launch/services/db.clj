@@ -25,7 +25,7 @@
     (mq/limit limit)))
 
 (defn ->site-model
-  "Selects only the valid database fields for saving"
+  "Selects only the valid database fields for saving and overwrites non-editable fields with db values"
   [obj]
   (select-keys
    (merge
