@@ -40,7 +40,7 @@
                   ["/site/:site-id" :get (conj common-interceptors site-profile) :route-name :site-profile]
                   ["/about" :get (conj common-interceptors about-page) :route-name :about]})
 
-  (def url-for-routes (route/url-for-routes (table/table-routes routes))))
+  (def url-for-routes (route/url-for-routes (table/table-routes routes)))
 
 
 ;; Consumed by tiny-launch.server/create-server

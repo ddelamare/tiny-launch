@@ -1,10 +1,10 @@
 .flex-1-2 {
   flex: 0 0 50%;
 }
-.striped :nth-child(odd) {
+.striped > :nth-child(odd) {
   background-color: antiquewhite;
 }
-.striped :nth-child(even) {
+.striped > :nth-child(even) {
   background-color: var(--color-light-fill);
 }
 .welcome {
