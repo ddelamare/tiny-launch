@@ -37,3 +37,8 @@ ul {
   width: 100%;
   padding: 1%;
 }
+input {
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+}
