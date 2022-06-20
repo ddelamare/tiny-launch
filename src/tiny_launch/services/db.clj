@@ -1,7 +1,8 @@
 (ns tiny-launch.services.db
   (:require [monger.core :as mg]
             [monger.collection :as mc]
-            [monger.query :as mq])
+            [monger.query :as mq]
+            [monger.operators :refer :all])
   (:import [com.mongodb MongoOptions ServerAddress]
            [org.bson.types ObjectId]))
 
@@ -31,7 +32,6 @@
 (defn get-sites
   [filter sort limit]
   (get-by-filter filter sort limit :sites))
-
 
 (defn ensure-metadata
   "Takes a model and embeds one-time metadata if the id is nil. If the Id is set, then it removes one-time set meta-data from the object"
@@ -64,3 +64,23 @@
   [user]
   (let [model (->user-model user)]
     (mc/update-by-id @main-db "users" (:_id model) model {:upsert true})))
+
+(defn favorite-site
+  "Sets or unsets a site as a favorite for a user"
+  [user site favorite?]
+  (let [userId (:_id user) siteId (:_id site)]
+    (when (and (some? userId) (some? siteId))
+      (if-let [fs (mc/find-one-as-map @main-db "user-favorites" {:user-id userId :site-id siteId})]
+        (mc/update-by-id @main-db "user-favorites" (:_id fs) {$set {:favorited favorite?}})
+        (mc/insert @main-db "user-favorites" (ensure-metadata {:user-id userId :site-id siteId :favorited favorite?}))))
+    )
+  )
+
+(defn site-favorited?
+  "Returns true if the user has favorited the site"
+  [user site]
+    (let [userId (:_id user) siteId (:_id site)]
+      (if (and (some? userId) (some? siteId))
+        (mc/any? @main-db "user-favorites" {:user-id userId :site-id siteId :favorited true})
+        false
+        )))
