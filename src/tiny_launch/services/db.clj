@@ -24,22 +24,34 @@
     (mq/sort sort)
     (mq/limit limit)))
 
+(defn ensure-metadata
+  "Takes a model and embeds one-time metadata if the id is nil. If the Id is set, then it removes one-time set meta-data from the object"
+  [obj]
+  (if (nil? (:_id obj))
+    (merge obj {:_id (ObjectId.) :created (java.util.Date.)})
+    (dissoc obj :created)))
+
 (defn ->site-model
   "Selects only the valid database fields for saving and overwrites non-editable fields with db values"
   [obj]
   (select-keys
-   (merge
-    obj
-    (cond
-      (nil? (:_id obj))
-      {:_id (ObjectId.)
-       :created (java.util.Date.)}
-      (not (nil? (:_id obj))) (let [saved (mc/find-map-by-id @main-db "sites" (:_id obj))]
-                                {:created (:created saved)})))
+    (ensure-metadata obj)
    ;; This will limit the map to fields that are allowable for the db
   [:_id :label :created :rating :tags :description :subdomain :images])) ;; TODO: FInd a way to sanitize nested objects.
+
+(defn ->user-model
+  "Takes a user object and projects it to only valid fields for saving"
+  [obj]
+  (select-keys
+   (ensure-metadata obj)
+   [:_id :created :first-name :last-name :email :sites]))
 
 (defn upsert-site
   [site]
   (let [model (->site-model site)]
     (mc/update-by-id @main-db "sites" (:_id model) model {:upsert true})))
+
+(defn upsert-user
+  [user]
+  (let [model (->user-model user)]
+    (mc/update-by-id @main-db "users" (:_id model) model {:upsert true})))
