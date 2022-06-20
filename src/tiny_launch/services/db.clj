@@ -9,20 +9,29 @@
 
 (def main-db (atom (mg/get-db @conn "tiny-launch")))
 
-(defn get-site
-  [id]
-  (let [siteId
+(defn get-by-id
+  [id coll]
+  (let [objId
         (if (instance? ObjectId id)
           id
-          (ObjectId. id))]
-    (mc/find-map-by-id @main-db "sites" siteId)))
+          (ObjectId. (name id)))]
+    (mc/find-map-by-id @main-db (name coll) objId))) ;(name) allows coll to be keyword or string
 
-(defn get-sites
-  [filter sort limit]
-  (mq/with-collection @main-db "sites"
+(defn get-by-filter
+  [filter sort limit coll]
+  (mq/with-collection @main-db (name coll)
     (mq/find filter)
     (mq/sort sort)
     (mq/limit limit)))
+
+(defn get-site
+  [id]
+  (get-by-id id "sites"))
+
+(defn get-sites
+  [filter sort limit]
+  (get-by-filter filter sort limit :sites))
+
 
 (defn ensure-metadata
   "Takes a model and embeds one-time metadata if the id is nil. If the Id is set, then it removes one-time set meta-data from the object"
@@ -35,9 +44,9 @@
   "Selects only the valid database fields for saving and overwrites non-editable fields with db values"
   [obj]
   (select-keys
-    (ensure-metadata obj)
+   (ensure-metadata obj)
    ;; This will limit the map to fields that are allowable for the db
-  [:_id :label :created :rating :tags :description :subdomain :images])) ;; TODO: FInd a way to sanitize nested objects.
+   [:_id :label :created :rating :tags :description :subdomain :images])) ;; TODO: FInd a way to sanitize nested objects.
 
 (defn ->user-model
   "Takes a user object and projects it to only valid fields for saving"

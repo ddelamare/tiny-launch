@@ -30,6 +30,13 @@
       server/create-server
       server/start))
 
+
+(comment
+  "This is how to start the dev server. Run them in the REPL"
+  (def serv (run-dev))
+  (serv :start)
+  )
+
 (defn -main
   "The entry-point for 'lein run'"
   [& args]
