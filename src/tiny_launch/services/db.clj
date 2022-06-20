@@ -37,7 +37,7 @@
       (not (nil? (:_id obj))) (let [saved (mc/find-map-by-id @main-db "sites" (:_id obj))]
                                 {:created (:created saved)})))
    ;; This will limit the map to fields that are allowable for the db
-  [:_id :label :created :rating :tags :description]))
+  [:_id :label :created :rating :tags :description :subdomain :images])) ;; TODO: FInd a way to sanitize nested objects.
 
 (defn upsert-site
   [site]
