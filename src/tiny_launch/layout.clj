@@ -15,6 +15,6 @@
   [request inner]
   (p/html5
    [:title "TinyLaunch"]
-   [:head (p/include-css "/css/header.css") (p/include-css "/css/root.css")]
+   [:head (p/include-css "/css/header.css") (p/include-css "/css/root.css") (p/include-js "https://kit.fontawesome.com/8ef8263035.js")]
    [:body [:div (header-bar request)] inner]))
 

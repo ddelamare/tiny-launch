@@ -32,8 +32,8 @@
 
 
 (comment
-  "This is how to start the dev server. Run them in the REPL"
-  (def serv (run-dev))
+  "This is how to start the dev server. Run them in the REPL with Alt-Enter"
+  (def serv (run-dev)) 
   (serv :start)
   )
 

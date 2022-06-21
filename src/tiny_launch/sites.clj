@@ -6,12 +6,6 @@
             [tiny-launch.services.site :as ss]
             [tiny-launch.services.db :as db]))
 
-(defn site-list
-  "Lists a set of sites. Takes parameters for type and page size and paging"
-  [list-type pageSize pageable?]
-  [:div.site-list
-   [:div.list-box.striped (map (fn [kv] [:div.site-list-row (:label kv)]) (ss/get-site list-type))]])
-
 (defn form-field
   "Takes a label and a model and generates an input or static text"
   [label site isEdit & {:keys [type] :or {type :text}}] ;; Allows for keyed/named parameters with defaults

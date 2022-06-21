@@ -9,20 +9,29 @@
 .list-box { 
     border: 1px solid black; 
     border-radius: 5px;
-    border-collapse: collapse;
+    border-collapse: collapse; 
 }
-
-
+ 
+ 
 .featured {
     .flex-1-2;
     .list-box;
 }
- 
+  
 .newest {
     .flex-1-2;
     .list-box;   
 } 
  
 .site-list-row{   
-    background-color: red;  
+    background-color: red;
+    padding: var(--container-padding);
+    display: flex; 
+    .favorite-icon {
+        float: right; 
+    }
+
+    a{
+        flex:auto;
+    }
 } 
