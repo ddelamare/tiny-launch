@@ -46,7 +46,7 @@
   (select-keys
    (ensure-metadata obj)
    ;; This will limit the map to fields that are allowable for the db
-   [:_id :label :created :rating :tags :description :subdomain :images])) ;; TODO: FInd a way to sanitize nested objects.
+   [:_id :label :created :favorites :tags :description :subdomain :images])) ;; TODO: FInd a way to sanitize nested objects.
 
 (defn ->user-model
   "Takes a user object and projects it to only valid fields for saving"
@@ -67,18 +67,22 @@
 
 (defn favorite-site
   "Sets or unsets a site as a favorite for a user"
-  [user site favorite?]
+  [site user favorite?]
   (let [userId (:_id user) siteId (:_id site)]
     (when (and (some? userId) (some? siteId))
       (if-let [fs (mc/find-one-as-map @main-db "user-favorites" {:user-id userId :site-id siteId})]
-        (mc/update-by-id @main-db "user-favorites" (:_id fs) {$set {:favorited favorite?}})
-        (mc/insert @main-db "user-favorites" (ensure-metadata {:user-id userId :site-id siteId :favorited favorite?}))))
-    )
-  )
+        (when (not= favorite? (:favorited fs))
+          (mc/update-by-id @main-db "user-favorites" (:_id fs) {$set {:favorited favorite?}})
+          (println "test" siteId)
+          (mc/update-by-id @main-db "sites" siteId {$inc {:favorites (if (true? favorite?) 1 -1)}})) ; Keep a running total of favorites on the site
+        (do
+          (mc/insert @main-db "user-favorites" (ensure-metadata {:user-id userId :site-id siteId :favorited favorite?}))
+          (mc/update-by-id @main-db "sites" siteId {$inc {:favorites (if (true? favorite?) 1 0)}})) ; Keep a running total of favorites on the site
+          ))))
 
 (defn site-favorited?
   "Returns true if the user has favorited the site"
-  [user site]
+  [site user]
     (let [userId (:_id user) siteId (:_id site)]
       (if (and (some? userId) (some? siteId))
         (mc/any? @main-db "user-favorites" {:user-id userId :site-id siteId :favorited true})
